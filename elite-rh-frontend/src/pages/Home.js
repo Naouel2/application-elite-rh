@@ -32,7 +32,7 @@ const Home = () => {
                     <h2 className="home-title">
                         Nos formations
                     </h2>
-                    <form onSubmit={handleSubmit}>
+{/*                     <form onSubmit={handleSubmit}>
                         <input
                         type="text"
                         placeholder="Rechercher une formation..."
@@ -42,7 +42,7 @@ const Home = () => {
                          <button type="submit">
                         Rechercher
                         </button>
-                    </form>
+                    </form> */}
                 </div>
                 <FormationCard onClick={handleCardClick}/> 
             </div>

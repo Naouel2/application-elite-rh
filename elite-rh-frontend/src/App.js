@@ -11,6 +11,7 @@ import Admin from './pages/Admin';
 import About from './pages/About';
 import CreateUser from './pages/CreateUser';
 import CreateFormation from './pages/Createformation';
+import EditFormation from './pages/EditFormation';
 
 // Components
 import ProtectedRoute from './components/ProtectedRoute';
@@ -27,6 +28,7 @@ function App() {
         <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
         <Route path="/create-user" element={<ProtectedRoute><CreateUser /></ProtectedRoute>} />
         <Route path="/create-formation" element={<ProtectedRoute><CreateFormation /></ProtectedRoute>} />
+        <Route path="/edit-formation/:id" element={<ProtectedRoute><EditFormation /></ProtectedRoute>} />
       </Routes>
     </Router>
   );
