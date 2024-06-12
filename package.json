@@ -1,0 +1,16 @@
+{
+    "name": "application-elite-rh",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+        "start:backend": "npm run --prefix elite-rh-backend start",
+        "start:frontend": "npm run --prefix elite-rh-frontend start",
+        "install:backend": "npm install --prefix elite-rh-backend",
+        "install:frontend": "npm install --prefix elite-rh-frontend",
+        "install:all": "npm run install:backend && npm run install:frontend"
+    },
+    "dependencies": {
+        "concurrently": "^7.6.0"
+    }
+}
