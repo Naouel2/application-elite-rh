@@ -199,6 +199,10 @@ cursor: pointer;
   max-width: 60%;
 }
 
+.formation-card {
+  position: relative;
+}
+
 .formation-card-bottom {
   padding: 3%;
   border: #6415FF 2px solid;
