@@ -1,3 +1,5 @@
+// Connexion à la BDD
+
 const Sequelize = require('sequelize');
 
 require('dotenv').config()

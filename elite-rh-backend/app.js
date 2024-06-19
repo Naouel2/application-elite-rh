@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
-const db = require('./config/database');
-const sequelize = require('./config/index').sequelize;
+const db = require('./config/database');  
+const sequelize = require('./config/index').sequelize;  // contient la définition des relations de la BDD
 const checkAuth = require('./middleware/checkAuth');
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
