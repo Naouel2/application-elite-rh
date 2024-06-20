@@ -17,6 +17,7 @@ const CreateFormation = () => {
   });
 
   const [roles, setRoles] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchRoles = async () => {
@@ -60,6 +61,15 @@ const CreateFormation = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+
+    // Validation de l'email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(user.email_utilisateur)) {
+      setError('Veuillez entrer une adresse email valide.');
+      return;
+    }
+
     const token = localStorage.getItem('token');
 
     try {
@@ -89,7 +99,7 @@ const CreateFormation = () => {
         <div className="title-searchbar">
           <h2>Espace Administrateur</h2>
         </div>
-        <h3>Créer Formation</h3>
+        <h3>Créer Utilisateur</h3>
         <div className="users-view">
           <form onSubmit={handleSubmit}>
             <div>
@@ -103,6 +113,7 @@ const CreateFormation = () => {
             <div>
               <label>Email:</label>
               <input type="email" name="email_utilisateur" value={user.email_utilisateur} onChange={handleChange} />
+              {error && <p className="error">{error}</p>}
             </div>
             <div>
               <label>Téléphone:</label>
