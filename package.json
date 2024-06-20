@@ -8,10 +8,13 @@
         "start:frontend": "npm run --prefix elite-rh-frontend start",
         "install:backend": "npm install --prefix elite-rh-backend",
         "install:frontend": "npm install --prefix elite-rh-frontend",
-        "install:all": "npm run install:backend && npm run install:frontend"
+        "install:all": "npm run install:backend && npm run install:frontend",
+        "test": "jest"
     },
     "dependencies": {
-        "concurrently": "^7.6.0",
+        "concurrently": "^7.6.0"
+    },
+    "devDependencies": {
         "jest": "^29.7.0"
     }
 }
