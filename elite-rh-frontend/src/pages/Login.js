@@ -21,6 +21,8 @@ const Login = () => {
         e.preventDefault();
         setError(null);
 
+        // ma demande à l'API :
+
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
                 method: 'POST',
@@ -30,6 +32,8 @@ const Login = () => {
                 body: JSON.stringify({ email_utilisateur: email, mdp_utilisateur: password }),
             });
 
+            // Ce que je reçois :
+            
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem('token', data.token); // Save token to localStorage
