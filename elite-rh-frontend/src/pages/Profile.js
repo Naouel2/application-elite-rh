@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
-import MainHeadline from '../components/MainHeadline';
 import clock from "../images/clock.png";
 import localisation from "../images/localisation.png";
 import garbage from "../images/garbage.png";
+import collaborator from "../images/collaborator.png";
+import ticket from "../images/ticket.png";
 
-const FormationCard = ({ onClick }) => {
-  const [formations, setFormations] = useState([]);
+
+const ReservationCard = () => {
+  const [reservations, setReservations] = useState([]);
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchFormations = async () => {
+    const fetchReservations = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/formations`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/reservations/user/${userId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -23,53 +26,79 @@ const FormationCard = ({ onClick }) => {
         });
 
         if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des formations');
+          throw new Error('Erreur lors de la récupération des réservations');
         }
 
         const data = await response.json();
-        setFormations(data);
+        setReservations(data);
       } catch (error) {
-        console.error('Erreur lors de la récupération des formations:', error);
+        console.error('Erreur lors de la récupération des réservations:', error);
       }
     };
-    fetchFormations();
-  }, []);
+    fetchReservations();
+  }, [token]);
+
+  const handleDeleteReservation = async (id) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/reservations/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la suppression de la réservation');
+      }
+
+      // Update the state to remove the deleted reservation
+      setReservations(reservations.filter(reservation => reservation.id !== id));
+    } catch (error) {
+      console.error('Erreur lors de la suppression de la réservation:', error);
+    }
+  };
 
   return (
     <>
       <Header/>
       <div className="formation-part container">
-      <div className="title-searchbar">
+        <div className="title-searchbar">
           <h2>Mon compte</h2>
-      </div>
-      {formations.map((formation) => (
-        <div key={formation.id} className="formation-card" onClick={() => onClick(formation.id)}>
-          <img 
-            src={garbage} 
-            alt="edit" 
-            className="delete-icon" 
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/edit-formation/${formation.id}`);
-            }}
-          />
-          <div className="formation-card-bottom">
-            <h3>{formation.nom_formation}</h3>
-            <div className="date-localisation">
-              <img src={clock} alt="clock" />
-              <p>{new Date(formation.date_debut_formation).toLocaleDateString('fr-FR') + ' - ' + new Date(formation.date_fin_formation).toLocaleDateString('fr-FR')}</p>
-            </div>
-            <div className="date-localisation">
-              <img src={localisation} alt="localisation" />
-              <p>{formation.salle.nom_salle}</p>
+        </div>
+        {reservations.map((reservation) => (
+          <div key={reservation.id} className="reservation-card" onClick={() => navigate(`/formation/${reservation.formation.id}`)}>
+            <div className="reservation-card-bottom">
+            <div className="formation-card-bottom">
+                    <h3>{reservation.formation.nom_formation}</h3>
+                    <div className="date-localisation">
+                      <img src={ticket} alt="ticket" />
+                      <p>N° réservation : {reservation.numero_reservation}</p>
+                    </div>
+                    <div className="date-localisation">
+                      <img src={clock} alt="clock" />
+                      <p>{new Date(reservation.formation.date_debut_formation).toLocaleDateString('fr-FR') + ' - ' + new Date(reservation.formation.date_fin_formation).toLocaleDateString('fr-FR')}</p>
+                    </div>
+                    <div className="date-localisation">
+                      <img src={localisation} alt="localisation" />
+                      <p>{reservation.formation.salle.nom_salle} - {reservation.formation.salle.batiment_salle}</p>
+                    </div>
+                  </div>
+            <img 
+              src={garbage} 
+              alt="delete" 
+              className="delete-icon" 
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteReservation(reservation.id);
+              }}
+            />
             </div>
           </div>
-        </div>
-      ))}
+        ))}
       </div>
     </>
-
   );
 };
 
-export default FormationCard;
+export default ReservationCard;
