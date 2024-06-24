@@ -10,14 +10,6 @@ import Footer from "../components/Footer";
 
 
 const Home = () => {
-    const [inputValue, setInputValue] = useState("");
-    const handleChange = (e) => setInputValue(e.target.value);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setInputValue("");
-      };
-
       const navigate = useNavigate();
       const handleCardClick = (formationId) => {
         navigate(`/formation/${formationId}`);
@@ -32,17 +24,6 @@ const Home = () => {
                     <h2 className="home-title">
                         Nos formations
                     </h2>
-{/*                     <form onSubmit={handleSubmit}>
-                        <input
-                        type="text"
-                        placeholder="Rechercher une formation..."
-                        value={inputValue}
-                        onChange={handleChange}
-                        />
-                         <button type="submit">
-                        Rechercher
-                        </button>
-                    </form> */}
                 </div>
                 <FormationCard onClick={handleCardClick}/> 
             </div>
